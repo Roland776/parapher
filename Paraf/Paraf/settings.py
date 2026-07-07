@@ -298,43 +298,53 @@ LOGGING = {
             'formatter': 'verbose',
             'filters': ['redact_uuid'],
         },
-        'file': {
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
-            'maxBytes': 5 * 1024 * 1024,  # 5 Mo max par fichier
-            'backupCount': 5,
-            'formatter': 'verbose',
-            'filters': ['redact_uuid'],
-            # Permissions Unix : seul le process Django (www-data) peut lire/écrire
-            # Les autres utilisateurs n'ont aucun accès (mode 0o640)
-            'encoding': 'utf-8',
-        },
     },
     'root': {
-        'handlers': ['console', 'file'],
+        'handlers': ['console'],
         'level': 'WARNING',
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'WARNING',
             'propagate': False,
         },
         # Intercepte les logs HTTP (URLs complètes avec UUIDs)
         'django.server': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'WARNING',  # ne log que les erreurs, pas les 200/301
             'propagate': False,
         },
         'django.request': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'WARNING',
             'propagate': False,
         },
         'documents': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
         },
     },
 }
+
+# Sur Render, le disque est éphémère : un fichier de log n'a aucun intérêt
+# (il disparaît au redéploiement) et le dossier logs/ n'existe pas dans le
+# repo. Render capture déjà stdout/stderr dans son propre dashboard, donc on
+# se contente du handler 'console' ci-dessus. En local (Windows), on ajoute
+# le fichier de log tournant comme avant.
+if not os.environ.get('RENDER'):
+    _logs_dir = os.path.join(BASE_DIR, 'logs')
+    os.makedirs(_logs_dir, exist_ok=True)
+
+    LOGGING['handlers']['file'] = {
+        'class': 'logging.handlers.RotatingFileHandler',
+        'filename': os.path.join(_logs_dir, 'django.log'),
+        'maxBytes': 5 * 1024 * 1024,  # 5 Mo max par fichier
+        'backupCount': 5,
+        'formatter': 'verbose',
+        'filters': ['redact_uuid'],
+        'encoding': 'utf-8',
+    }
+    for _logger_config in [LOGGING['root'], *LOGGING['loggers'].values()]:
+        _logger_config['handlers'].append('file')
