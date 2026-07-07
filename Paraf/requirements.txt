@@ -1,0 +1,33 @@
+# ─── Parapher — dépendances production ───────────────────────────────────────
+# Généré manuellement — ne contient que ce dont l'app a réellement besoin.
+# Pour installer : pip install -r requirements.txt
+
+# Django & REST
+Django==5.2.7
+djangorestframework==3.16.1
+djangorestframework-simplejwt==5.5.1
+django-cors-headers==4.9.0
+django-filter==25.2
+django-axes==7.0.1
+# Base de données PostgreSQL
+psycopg2-binary==2.9.11
+dj-database-url==2.3.0
+
+# Serveur de production Windows (Waitress) — utilisé en local sur Windows
+waitress==3.0.2
+
+# Serveur de production Linux (Render / Neon) — utilisé en ligne
+gunicorn==23.0.0
+
+# Fichiers statiques
+whitenoise==6.9.0
+
+# Stockage des fichiers médias (documents PDF) sur Cloudinary — persistant
+django-cloudinary-storage==0.3.0
+cloudinary==1.41.0
+
+# Variables d'environnement
+python-dotenv==1.2.2
+
+# Utilitaires
+Pillow==11.3.0

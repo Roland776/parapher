@@ -1,0 +1,25 @@
+# ─── SECRETS ────────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# ─── Python / Django ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+db.sqlite3
+Paraf/staticfiles/
+Paraf/media/
+Paraf/logs/
+Paraf/backups/
+
+# ─── Node / React ─────────────────────────────────────────────────────────────
+node_modules/
+frontend/build/
+npm-debug.log*
+
+# ─── Éditeurs / OS ────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+Thumbs.db

@@ -1,0 +1,45 @@
+services:
+  # ── Backend Django (API) ────────────────────────────────────────────────
+  - type: web
+    name: parapher-backend
+    runtime: python
+    plan: free
+    rootDir: Paraf
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn Paraf.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "localhost,127.0.0.1"
+      - key: DATABASE_URL
+        sync: false          # à coller manuellement : URL de connexion Neon
+      - key: CLOUDINARY_URL
+        sync: false          # à coller manuellement : URL Cloudinary
+      - key: CORS_EXTRA_ORIGINS
+        sync: false          # à remplir avec l'URL du frontend (Vercel/Netlify)
+      - key: FRONTEND_URL
+        sync: false
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+
+  # ── Frontend React (site statique) ──────────────────────────────────────
+  - type: web
+    name: parapher-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: "npm install && npm run build"
+    staticPublishPath: ./build
+    envVars:
+      - key: REACT_APP_API_URL
+        sync: false          # à remplir avec l'URL du backend Render
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

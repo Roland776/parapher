@@ -1,0 +1,412 @@
+/* --- Variables de Thème (Charte Graphique Sécurisée) --- */
+:root {
+  --primary: #1e3a8a; /* Bleu marine corporate */
+  --primary-hover: #1e40af;
+  --success: #10b981; /* Vert eIDAS / Validé */
+  --danger: #ef4444; /* Rouge refusé / Alerte */
+  --warning: #f59e0b; /* Orange attention */
+  --bg-main: #f8fafc; /* Fond clair moderne */
+  --bg-surface: #ffffff; /* Fond des cartes */
+  --text-main: #1e293b; /* Texte foncé lisible */
+  --text-muted: #64748b; /* Texte secondaire */
+  --border: #e2e8f0; /* Bordures fines */
+  --radius: 8px; /* Arrondis modernes */
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+}
+
+/* --- Reset & Base --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+
+/* --- Layout Structure --- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .grid-member {
+    grid-template-columns: 1fr 2fr !important;
+  }
+}
+
+/* --- Barre de Navigation (Manquante au prototype) --- */
+.navbar {
+  background-color: var(--primary);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.navbar-link {
+  color: #93c5fd;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.navbar-link:hover {
+  color: white;
+}
+
+/* --- Composants : Cartes (Cards) --- */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+/* --- Composants : Formulaires --- */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.625rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* --- Composants : Boutons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+.btn-success {
+  background-color: var(--success);
+  color: white;
+}
+.btn-danger {
+  background-color: var(--danger);
+  color: white;
+}
+.btn-secondary {
+  background-color: var(--text-muted);
+  color: white;
+}
+
+/* --- Composants : Tableaux --- */
+.table-container {
+  overflow-x: auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f1f5f9;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #475569;
+  border-bottom: 2px solid var(--border);
+}
+
+.table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+/* --- Badges d'États --- */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.badge-upload {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+.badge-sign {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+.badge-download {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+/* --- Visionneuse PDF Simulée --- */
+.pdf-viewer-mock {
+  height: 350px;
+  background-color: #cbd5e1;
+  border-radius: var(--radius);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #94a3b8;
+  overflow: hidden;
+}
+
+.watermark {
+  position: absolute;
+  transform: rotate(-25deg);
+  font-size: 2.2rem;
+  color: rgba(15, 23, 42, 0.06);
+  font-weight: 800;
+  white-space: nowrap;
+  pointer-events: none;
+}
+/* ── Navbar responsive ───────────────────────────────────────────── */
+.navbar-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+  }
+
+  .navbar-hamburger {
+    display: block;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin-top: 0.5rem;
+  }
+
+  .navbar-links--open {
+    display: flex;
+  }
+
+  .navbar-link {
+    font-size: 1rem;
+    padding: 0.25rem 0;
+  }
+
+  /* ── Container ───────────────────────────────────────── */
+  .container {
+    padding: 1rem 0.75rem;
+  }
+
+  /* ── Tableaux → scroll horizontal ───────────────────── */
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.65rem 0.5rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  /* ── Boutons ─────────────────────────────────────────── */
+  .btn {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.875rem;
+  }
+
+  /* ── Cards ───────────────────────────────────────────── */
+  .card {
+    padding: 1rem;
+  }
+
+  /* ── Grille → colonne unique ─────────────────────────── */
+  .grid-2,
+  .grid-member {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  /* ── Formulaires ─────────────────────────────────────── */
+  .form-control {
+    font-size: 16px; /* évite le zoom automatique sur iOS */
+  }
+}
+/* ── Admin grille Import / Droits ────────────────────────────────────── */
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Membre layout liste / visionneuse ───────────────────────────────── */
+.member-layout {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+  align-items: flex-start;
+}
+
+.member-sidebar {
+  flex: 0 0 300px;
+  border-right: 1px solid #e5e7eb;
+  padding-right: 20px;
+}
+
+.member-viewer {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── PDF viewer responsive ───────────────────────────────────────────── */
+.pdf-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background-color: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  /* Admin : 1 colonne */
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Membre : empilé verticalement */
+  .member-layout {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .member-sidebar {
+    flex: none;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    padding-right: 0;
+    padding-bottom: 16px;
+  }
+
+  .member-viewer {
+    width: 100%;
+  }
+
+  /* PDF : zoom par défaut réduit et scroll horizontal */
+  canvas {
+    max-width: 100%;
+  }
+
+  /* Barre PDF : navigation + zoom sur 2 lignes */
+  .pdf-toolbar {
+    gap: 8px;
+    padding: 6px 8px;
+  }
+
+  /* Modales : plein écran sur mobile */
+  .modal-box {
+    padding: 20px 16px !important;
+    margin: 16px !important;
+  }
+}
