@@ -71,10 +71,21 @@ export const AuthProvider = ({ children }) => {
     const response = await API.post("auth/login/", { username, password });
     const { access, refresh } = response.data;
 
+    if (!access || !refresh) {
+      throw new Error(
+        "Réponse du serveur invalide (pas de token reçu). " +
+        "Vérifiez que REACT_APP_API_URL pointe bien vers le backend Django."
+      );
+    }
+
     localStorage.setItem("access_token",  access);
     localStorage.setItem("refresh_token", refresh);
 
-    const decoded    = decodeToken(access);
+    const decoded = decodeToken(access);
+    if (!decoded) {
+      throw new Error("Le token reçu n'a pas pu être décodé (format JWT invalide).");
+    }
+
     const loggedUser = {
       username: decoded.username,
       email:    decoded.email,
