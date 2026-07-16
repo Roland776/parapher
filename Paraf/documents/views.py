@@ -108,16 +108,17 @@ def _notify_members_for_publication(publication):
             if not member.email:
                 continue
             subject, body = _build_notification_email(publication, member)
-            try:
-                send_mail(
-                    subject=subject,
-                    message=body,
-                    from_email=django_settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[member.email],
-                    fail_silently=True,
-                )
-            except Exception as exc:
-                logger.warning("Échec envoi e-mail à %s : %s", member.email, exc)
+    try:
+        send_mail(
+        subject=subject,
+        message=body,
+        from_email=django_settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[member.email],
+        fail_silently=False,   # <-- CHANGÉ : laisse l'erreur remonter pour la voir dans les logs
+        )
+        logger.info("Email envoyé avec succès à %s", member.email)
+    except Exception as exc:
+        logger.warning("Échec envoi e-mail à %s : %s", member.email, exc)
     finally:
         # Fermer la connexion DB ouverte dans ce thread pour éviter les fuites
         db_connection.close()
