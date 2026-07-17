@@ -201,25 +201,42 @@ SIMPLE_JWT = {
 # Avantage : passer DEBUG=False en prod ne casse pas les emails,
 # et un DEBUG=True accidentel en prod n'empêche pas les emails de partir.
 
-EMAIL_BACKEND = os.environ.get(
-    'EMAIL_BACKEND',
-    'django.core.mail.backends.smtp.EmailBackend',  # valeur par défaut = production
-)
-EMAIL_HOST          = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT          = int(os.environ.get('EMAIL_PORT', '587'))
-EMAIL_USE_TLS       = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
-EMAIL_HOST_USER     = os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+# ── E-mail ────────────────────────────────────────────────────────────────────
+# Render (plan gratuit) bloque tout le trafic SMTP sortant (ports 25/465/587).
+# Solution : si BREVO_API_KEY est définie, on envoie les emails via l'API HTTPS
+# de Brevo (django-anymail) au lieu de SMTP. En local (pas de BREVO_API_KEY),
+# on garde le SMTP classique comme avant.
+_brevo_api_key = os.environ.get('BREVO_API_KEY')
 
-# Vérification au démarrage : alerter si les credentials SMTP sont absents en prod
-_email_backend_is_smtp = (EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend')
-if _email_backend_is_smtp and not EMAIL_HOST_USER:
-    import warnings
-    warnings.warn(
-        "EMAIL_HOST_USER est vide mais EMAIL_BACKEND est smtp. "
-        "Les emails ne partiront pas. Vérifiez votre .env.",
-        stacklevel=2,
+if _brevo_api_key:
+    INSTALLED_APPS = INSTALLED_APPS + ['anymail']
+    EMAIL_BACKEND = 'anymail.backends.brevo.EmailBackend'
+    ANYMAIL = {
+        'BREVO_API_KEY': _brevo_api_key,
+    }
+else:
+    EMAIL_BACKEND = os.environ.get(
+        'EMAIL_BACKEND',
+        'django.core.mail.backends.smtp.EmailBackend',
     )
+    EMAIL_HOST          = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+    EMAIL_PORT          = int(os.environ.get('EMAIL_PORT', '587'))
+    EMAIL_USE_TLS       = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+    EMAIL_HOST_USER     = os.environ.get('EMAIL_HOST_USER', '')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+
+    # Vérification au démarrage : alerter si les credentials SMTP sont absents
+    _email_backend_is_smtp = (EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend')
+    if _email_backend_is_smtp and not EMAIL_HOST_USER:
+        import warnings
+        warnings.warn(
+            "EMAIL_HOST_USER est vide mais EMAIL_BACKEND est smtp. "
+            "Les emails ne partiront pas. Vérifiez votre .env.",
+            stacklevel=2,
+        )
+
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', '') or os.environ.get('DEFAULT_FROM_EMAIL', '')
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
 
 DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', '')
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
