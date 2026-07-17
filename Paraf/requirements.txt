@@ -29,5 +29,8 @@ cloudinary==1.41.0
 # Variables d'environnement
 python-dotenv==1.2.2
 
+
+django-anymail[brevo]
+
 # Utilitaires
 Pillow==11.3.0
