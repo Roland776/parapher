@@ -235,10 +235,10 @@ else:
             stacklevel=2,
         )
 
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', '') or os.environ.get('DEFAULT_FROM_EMAIL', '')
-FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
-
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', '')
++DEFAULT_FROM_EMAIL = (
++    os.environ.get('DEFAULT_FROM_EMAIL', '')
++    or os.environ.get('EMAIL_HOST_USER', '')
++)
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
 
 # ── Sécurité HTTPS (production uniquement) ────────────────────────────────────
